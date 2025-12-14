@@ -9,10 +9,10 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>SWH Négoce - Industrial Equipment & Supplies</title>
+        <title>SWH Négoce - Produits d'Hygiène & Consommables</title>
         <meta
           name="description"
-          content="SWH Négoce is your trusted partner for industrial equipment, safety gear, and professional supplies. Browse our catalog and request a quote today."
+          content="SWH Négoce, votre partenaire de confiance pour les produits d'hygiène, consommables, toners et fournitures professionnelles. Parcourez notre catalogue et demandez un devis."
         />
       </Helmet>
       <Layout>

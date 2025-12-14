@@ -16,10 +16,10 @@ export function CategoriesSection() {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Product Categories
+            Nos Catégories de Produits
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Explore our comprehensive range of industrial equipment and supplies
+            Découvrez notre gamme complète de produits d'hygiène et consommables
           </p>
         </motion.div>
 
@@ -53,7 +53,7 @@ export function CategoriesSection() {
                     {category.name}
                   </h3>
                   <div className="flex items-center text-primary-foreground/70 text-sm group-hover:text-accent transition-colors">
-                    <span>View Products</span>
+                    <span>Voir les Produits</span>
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
@@ -74,7 +74,7 @@ export function CategoriesSection() {
             to="/products"
             className="inline-flex items-center gap-2 text-primary font-medium hover:text-accent transition-colors"
           >
-            View All Products
+            Voir Tous les Produits
             <ArrowRight className="h-5 w-5" />
           </Link>
         </motion.div>

@@ -12,9 +12,9 @@ export function Footer() {
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold mb-4">SWH Négoce</h2>
             <p className="text-primary-foreground/70 mb-6 max-w-md">
-              Your trusted partner for industrial equipment and supplies. 
-              We provide high-quality products and professional service to 
-              businesses across the region.
+              Votre partenaire de confiance pour les produits d'hygiène et 
+              consommables. Nous fournissons des produits de qualité et un 
+              service professionnel aux entreprises.
             </p>
             <div className="flex items-center gap-4">
               <a
@@ -31,14 +31,14 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4">Liens Rapides</h3>
             <ul className="space-y-3">
               <li>
                 <Link
                   to="/"
                   className="text-primary-foreground/70 hover:text-accent transition-colors"
                 >
-                  Home
+                  Accueil
                 </Link>
               </li>
               <li>
@@ -46,7 +46,7 @@ export function Footer() {
                   to="/products"
                   className="text-primary-foreground/70 hover:text-accent transition-colors"
                 >
-                  Products
+                  Produits
                 </Link>
               </li>
               <li>
@@ -54,7 +54,7 @@ export function Footer() {
                   to="/contact"
                   className="text-primary-foreground/70 hover:text-accent transition-colors"
                 >
-                  Contact Us
+                  Nous Contacter
                 </Link>
               </li>
             </ul>
@@ -62,7 +62,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4">Nous Contacter</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin size={20} className="text-accent shrink-0 mt-0.5" />
@@ -96,7 +96,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-primary-foreground/10">
           <p className="text-center text-primary-foreground/50 text-sm">
-            © {currentYear} SWH Négoce. All rights reserved.
+            © {currentYear} SWH Négoce. Tous droits réservés.
           </p>
         </div>
       </div>

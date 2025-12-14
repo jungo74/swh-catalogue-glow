@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
+  { href: "/", label: "Accueil" },
+  { href: "/products", label: "Produits" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -73,7 +73,7 @@ export function Navbar() {
                   "border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
               )}
             >
-              <Link to="/contact">Request a Quote</Link>
+              <Link to="/contact">Demander un Devis</Link>
             </Button>
           </div>
 
@@ -111,7 +111,7 @@ export function Navbar() {
               ))}
               <Button asChild className="w-full mt-4">
                 <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-                  Request a Quote
+                  Demander un Devis
                 </Link>
               </Button>
             </div>

@@ -22,11 +22,11 @@ export function CTASection() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-6">
-            Ready to Get Started?
+            Prêt à Commencer ?
           </h2>
           <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto mb-10">
-            Contact us today for a personalized quote. Our team is ready to help 
-            you find the right products for your business needs.
+            Contactez-nous dès aujourd'hui pour un devis personnalisé. Notre équipe 
+            est prête à vous aider à trouver les produits adaptés à vos besoins.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
@@ -37,7 +37,7 @@ export function CTASection() {
             >
               <Link to="/contact">
                 <Mail className="mr-2 h-5 w-5" />
-                Request a Quote
+                Demander un Devis
               </Link>
             </Button>
             <Button

@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, MessageCircle, Send, Upload, X, FileText, Image } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle, Send, Upload, X, FileText } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -42,18 +42,18 @@ const ContactPage = () => {
   const validateFile = (file: File): string | null => {
     // Check file type
     if (!ALLOWED_TYPES.includes(file.type)) {
-      return `File type not allowed. Accepted: ${ALLOWED_EXTENSIONS.join(', ')}`;
+      return `Type de fichier non autorisé. Acceptés : ${ALLOWED_EXTENSIONS.join(', ')}`;
     }
     
     // Check file size
     if (file.size > MAX_FILE_SIZE) {
-      return `File too large. Maximum size: ${MAX_FILE_SIZE / (1024 * 1024)}MB`;
+      return `Fichier trop volumineux. Taille max : ${MAX_FILE_SIZE / (1024 * 1024)}Mo`;
     }
     
     // Check file extension matches content type (security)
     const extension = '.' + file.name.split('.').pop()?.toLowerCase();
     if (!ALLOWED_EXTENSIONS.includes(extension)) {
-      return `Invalid file extension. Accepted: ${ALLOWED_EXTENSIONS.join(', ')}`;
+      return `Extension non valide. Acceptées : ${ALLOWED_EXTENSIONS.join(', ')}`;
     }
     
     return null;
@@ -64,8 +64,8 @@ const ContactPage = () => {
     
     if (uploadedFiles.length + files.length > MAX_FILES) {
       toast({
-        title: "Too many files",
-        description: `Maximum ${MAX_FILES} files allowed`,
+        title: "Trop de fichiers",
+        description: `Maximum ${MAX_FILES} fichiers autorisés`,
         variant: "destructive",
       });
       return;
@@ -77,7 +77,7 @@ const ContactPage = () => {
       const error = validateFile(file);
       if (error) {
         toast({
-          title: "Invalid file",
+          title: "Fichier invalide",
           description: `${file.name}: ${error}`,
           variant: "destructive",
         });
@@ -124,8 +124,8 @@ const ContactPage = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     toast({
-      title: "Message Sent",
-      description: "Thank you for your inquiry. We'll get back to you soon!",
+      title: "Message Envoyé",
+      description: "Merci pour votre demande. Nous vous répondrons rapidement !",
     });
 
     // Cleanup file previews
@@ -139,18 +139,18 @@ const ContactPage = () => {
   };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    if (bytes < 1024) return bytes + ' o';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' Ko';
+    return (bytes / (1024 * 1024)).toFixed(1) + ' Mo';
   };
 
   return (
     <>
       <Helmet>
-        <title>Contact Us - SWH Négoce</title>
+        <title>Nous Contacter - SWH Négoce</title>
         <meta
           name="description"
-          content="Get in touch with SWH Négoce for industrial equipment inquiries, quotes, and support. We're here to help with all your business needs."
+          content="Contactez SWH Négoce pour vos demandes de devis, questions sur nos produits d'hygiène et consommables. Notre équipe est là pour vous aider."
         />
       </Helmet>
       <Layout>
@@ -164,11 +164,11 @@ const ContactPage = () => {
               className="text-center"
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                Contact Us
+                Nous Contacter
               </h1>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Have questions or need a quote? We're here to help. Reach out to us
-                and our team will get back to you promptly.
+                Vous avez des questions ou besoin d'un devis ? Nous sommes là pour 
+                vous aider. Notre équipe vous répondra rapidement.
               </p>
             </motion.div>
           </div>
@@ -185,12 +185,12 @@ const ContactPage = () => {
                 transition={{ duration: 0.5 }}
               >
                 <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Request a Quote
+                  Demander un Devis
                 </h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name *</Label>
+                      <Label htmlFor="name">Nom Complet *</Label>
                       <Input
                         id="name"
                         value={formData.name}
@@ -199,11 +199,11 @@ const ContactPage = () => {
                         }
                         required
                         maxLength={100}
-                        placeholder="John Doe"
+                        placeholder="Jean Dupont"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address *</Label>
+                      <Label htmlFor="email">Adresse Email *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -213,13 +213,13 @@ const ContactPage = () => {
                         }
                         required
                         maxLength={255}
-                        placeholder="john@company.com"
+                        placeholder="jean@entreprise.com"
                       />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
+                      <Label htmlFor="phone">Téléphone</Label>
                       <Input
                         id="phone"
                         type="tel"
@@ -228,11 +228,11 @@ const ContactPage = () => {
                           setFormData({ ...formData, phone: e.target.value })
                         }
                         maxLength={20}
-                        placeholder="+1 (234) 567-890"
+                        placeholder="+33 1 23 45 67 89"
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="company">Company Name</Label>
+                      <Label htmlFor="company">Nom de l'Entreprise</Label>
                       <Input
                         id="company"
                         value={formData.company}
@@ -240,12 +240,12 @@ const ContactPage = () => {
                           setFormData({ ...formData, company: e.target.value })
                         }
                         maxLength={100}
-                        placeholder="Your Company Ltd."
+                        placeholder="Votre Entreprise SARL"
                       />
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="message">Your Message *</Label>
+                    <Label htmlFor="message">Votre Message *</Label>
                     <Textarea
                       id="message"
                       value={formData.message}
@@ -254,16 +254,16 @@ const ContactPage = () => {
                       }
                       required
                       maxLength={2000}
-                      placeholder="Tell us about your requirements..."
+                      placeholder="Décrivez vos besoins..."
                       rows={5}
                     />
                   </div>
 
                   {/* File Upload Section */}
                   <div className="space-y-3">
-                    <Label>Attachments (Optional)</Label>
+                    <Label>Pièces Jointes (Optionnel)</Label>
                     <p className="text-sm text-muted-foreground">
-                      Upload images or PDF files (max {MAX_FILES} files, {MAX_FILE_SIZE / (1024 * 1024)}MB each)
+                      Joignez des images ou fichiers PDF (max {MAX_FILES} fichiers, {MAX_FILE_SIZE / (1024 * 1024)}Mo chacun)
                     </p>
                     
                     <div 
@@ -280,7 +280,7 @@ const ContactPage = () => {
                       />
                       <Upload className="h-8 w-8 mx-auto text-muted-foreground mb-2" />
                       <p className="text-sm text-muted-foreground">
-                        Click to upload or drag and drop
+                        Cliquez pour télécharger ou glissez-déposez
                       </p>
                       <p className="text-xs text-muted-foreground mt-1">
                         JPG, PNG, WebP, PDF
@@ -298,7 +298,7 @@ const ContactPage = () => {
                             {uploadedFile.preview ? (
                               <img
                                 src={uploadedFile.preview}
-                                alt="Preview"
+                                alt="Aperçu"
                                 className="w-10 h-10 object-cover rounded"
                               />
                             ) : (
@@ -336,11 +336,11 @@ const ContactPage = () => {
                     className="w-full sm:w-auto"
                   >
                     {isSubmitting ? (
-                      "Sending..."
+                      "Envoi en cours..."
                     ) : (
                       <>
                         <Send className="mr-2 h-5 w-5" />
-                        Send Message
+                        Envoyer le Message
                       </>
                     )}
                   </Button>
@@ -355,11 +355,11 @@ const ContactPage = () => {
                 className="lg:pl-8"
               >
                 <h2 className="text-2xl font-bold text-foreground mb-6">
-                  Get in Touch
+                  Nos Coordonnées
                 </h2>
                 <p className="text-muted-foreground mb-8">
-                  Prefer to reach out directly? Contact us through any of the
-                  following channels. We typically respond within 24 hours.
+                  Vous préférez nous contacter directement ? Utilisez l'un des 
+                  canaux suivants. Nous répondons généralement sous 24 heures.
                 </p>
 
                 <div className="space-y-6">
@@ -378,7 +378,7 @@ const ContactPage = () => {
                         WhatsApp
                       </h3>
                       <p className="text-muted-foreground text-sm">
-                        Quick responses during business hours
+                        Réponses rapides aux heures de bureau
                       </p>
                     </div>
                   </a>
@@ -396,7 +396,7 @@ const ContactPage = () => {
                         +1 (234) 567-890
                       </h3>
                       <p className="text-muted-foreground text-sm">
-                        Mon-Fri, 8:00 AM - 6:00 PM
+                        Lun-Ven, 8h00 - 18h00
                       </p>
                     </div>
                   </a>
@@ -414,7 +414,7 @@ const ContactPage = () => {
                         contact@swhnegoce.com
                       </h3>
                       <p className="text-muted-foreground text-sm">
-                        We reply within 24 hours
+                        Réponse sous 24 heures
                       </p>
                     </div>
                   </a>
@@ -426,12 +426,12 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground">
-                        Our Location
+                        Notre Adresse
                       </h3>
                       <p className="text-muted-foreground text-sm">
-                        123 Industrial Zone
+                        123 Zone Industrielle
                         <br />
-                        City, Country 12345
+                        Ville, Pays 12345
                       </p>
                     </div>
                   </div>
