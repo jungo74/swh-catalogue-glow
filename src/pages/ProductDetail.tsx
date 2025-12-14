@@ -35,7 +35,7 @@ const ProductDetailPage = () => {
                 className="inline-flex items-center text-muted-foreground hover:text-primary transition-colors"
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Products
+                Retour aux Produits
               </Link>
             </motion.div>
 
@@ -99,7 +99,7 @@ const ProductDetailPage = () => {
                 {product.specifications && product.specifications.length > 0 && (
                   <div className="mb-8">
                     <h2 className="text-xl font-semibold text-foreground mb-4">
-                      Specifications
+                      Spécifications
                     </h2>
                     <div className="bg-secondary rounded-xl p-6">
                       <dl className="grid grid-cols-2 gap-4">
@@ -128,7 +128,7 @@ const ProductDetailPage = () => {
                       className="inline-flex items-center gap-2 text-primary hover:text-accent transition-colors"
                     >
                       <Download className="h-5 w-5" />
-                      Download Datasheet (PDF)
+                      Télécharger la Fiche Technique (PDF)
                     </a>
                   </div>
                 )}
@@ -138,12 +138,12 @@ const ProductDetailPage = () => {
                   <Button asChild size="lg" className="flex-1">
                     <Link to="/contact">
                       <Mail className="mr-2 h-5 w-5" />
-                      Request a Quote
+                      Demander un Devis
                     </Link>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="flex-1">
                     <a
-                      href={`https://wa.me/1234567890?text=I'm interested in ${encodeURIComponent(product.name)}`}
+                      href={`https://wa.me/1234567890?text=Je suis intéressé par ${encodeURIComponent(product.name)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

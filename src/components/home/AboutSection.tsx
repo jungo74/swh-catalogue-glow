@@ -4,23 +4,23 @@ import { Shield, Truck, HeadphonesIcon, Award } from "lucide-react";
 const features = [
   {
     icon: Shield,
-    title: "Quality Guaranteed",
-    description: "All products meet international quality and safety standards",
+    title: "Qualité Garantie",
+    description: "Tous nos produits respectent les normes de qualité internationales",
   },
   {
     icon: Truck,
-    title: "Fast Delivery",
-    description: "Efficient logistics network ensures timely delivery",
+    title: "Livraison Rapide",
+    description: "Notre réseau logistique assure une livraison dans les délais",
   },
   {
     icon: HeadphonesIcon,
-    title: "Expert Support",
-    description: "Our team provides professional technical assistance",
+    title: "Support Expert",
+    description: "Notre équipe vous accompagne avec un service professionnel",
   },
   {
     icon: Award,
-    title: "Trusted Partner",
-    description: "Years of experience serving industrial clients",
+    title: "Partenaire de Confiance",
+    description: "Des années d'expérience au service des professionnels",
   },
 ];
 
@@ -37,17 +37,17 @@ export function AboutSection() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              Why Choose <span className="text-primary">SWH Négoce</span>?
+              Pourquoi Choisir <span className="text-primary">SWH Négoce</span> ?
             </h2>
             <p className="text-muted-foreground text-lg mb-8">
-              With years of experience in the industrial supply sector, we understand 
-              the importance of reliable equipment and professional service. Our 
-              commitment to quality and customer satisfaction sets us apart.
+              Avec des années d'expérience dans le secteur des fournitures professionnelles, 
+              nous comprenons l'importance de produits fiables et d'un service de qualité. 
+              Notre engagement envers la satisfaction client nous distingue.
             </p>
             <p className="text-muted-foreground text-lg">
-              Whether you need industrial machinery, safety equipment, or specialized 
-              tools, we have the expertise to help you find the right solutions for 
-              your business needs.
+              Que vous ayez besoin de produits d'hygiène, de consommables bureautiques 
+              ou de toners, nous avons l'expertise pour répondre à vos besoins 
+              professionnels.
             </p>
           </motion.div>
 

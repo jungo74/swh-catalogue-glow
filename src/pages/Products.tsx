@@ -5,17 +5,36 @@ import { motion } from "framer-motion";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryFilter } from "@/components/products/CategoryFilter";
+import { ProductSearch } from "@/components/products/ProductSearch";
+import { ProductNotFound } from "@/components/products/ProductNotFound";
 import { products, getCategoryBySlug } from "@/data/mockData";
 
 const ProductsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const categoryParam = searchParams.get("category");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categoryParam);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredProducts = useMemo(() => {
-    if (!selectedCategory) return products;
-    return products.filter((p) => p.category.slug === selectedCategory);
-  }, [selectedCategory]);
+    let result = products;
+    
+    // Filter by category
+    if (selectedCategory) {
+      result = result.filter((p) => p.category.slug === selectedCategory);
+    }
+    
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((p) => 
+        p.name.toLowerCase().includes(query) ||
+        p.description.toLowerCase().includes(query) ||
+        p.category.name.toLowerCase().includes(query)
+      );
+    }
+    
+    return result;
+  }, [selectedCategory, searchQuery]);
 
   const currentCategory = selectedCategory ? getCategoryBySlug(selectedCategory) : null;
 
@@ -34,14 +53,14 @@ const ProductsPage = () => {
         <title>
           {currentCategory
             ? `${currentCategory.name} - SWH Négoce`
-            : "Products - SWH Négoce"}
+            : "Produits - SWH Négoce"}
         </title>
         <meta
           name="description"
           content={
             currentCategory
-              ? `Browse our selection of ${currentCategory.name.toLowerCase()} products. Quality industrial equipment from SWH Négoce.`
-              : "Explore our complete catalog of industrial equipment, safety gear, and professional supplies."
+              ? `Découvrez notre sélection de ${currentCategory.name.toLowerCase()}. Produits de qualité par SWH Négoce.`
+              : "Explorez notre catalogue complet de produits d'hygiène, consommables et fournitures professionnelles."
           }
         />
       </Helmet>
@@ -55,12 +74,12 @@ const ProductsPage = () => {
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                {currentCategory ? currentCategory.name : "Our Products"}
+                {currentCategory ? currentCategory.name : "Nos Produits"}
               </h1>
               <p className="text-muted-foreground text-lg max-w-2xl">
                 {currentCategory
-                  ? `Explore our range of ${currentCategory.name.toLowerCase()} products.`
-                  : "Browse our complete catalog of industrial equipment and supplies."}
+                  ? `Découvrez notre gamme de ${currentCategory.name.toLowerCase()}.`
+                  : "Parcourez notre catalogue complet de produits d'hygiène et consommables."}
               </p>
             </motion.div>
           </div>
@@ -69,13 +88,14 @@ const ProductsPage = () => {
         {/* Products Grid */}
         <section className="py-12 md:py-16 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Category Filter */}
+            {/* Search and Filter */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="mb-10"
+              className="mb-10 space-y-6"
             >
+              <ProductSearch value={searchQuery} onChange={setSearchQuery} />
               <CategoryFilter
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleCategoryChange}
@@ -90,11 +110,7 @@ const ProductsPage = () => {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">
-                  No products found in this category.
-                </p>
-              </div>
+              <ProductNotFound searchQuery={searchQuery || undefined} />
             )}
           </div>
         </section>

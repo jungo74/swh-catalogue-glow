@@ -26,7 +26,7 @@ export function HeroSection() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-foreground/10 text-primary-foreground/80 text-sm font-medium mb-6">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Your Trusted Industrial Partner
+              Votre Partenaire de Confiance
             </span>
           </motion.div>
 
@@ -37,9 +37,9 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6"
           >
-            Industrial Equipment
+            Produits d'Hygiène
             <br />
-            <span className="text-accent">You Can Trust</span>
+            <span className="text-accent">& Consommables</span>
           </motion.h1>
 
           {/* Description */}
@@ -49,9 +49,9 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg sm:text-xl text-primary-foreground/70 max-w-2xl mb-8"
           >
-            SWH Négoce provides high-quality industrial equipment, safety gear, 
-            and professional supplies to businesses. Browse our catalog and 
-            request a personalized quote today.
+            SWH Négoce vous propose des produits d'hygiène, consommables, 
+            toners et fournitures professionnelles de qualité. Parcourez 
+            notre catalogue et demandez un devis personnalisé.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -68,7 +68,7 @@ export function HeroSection() {
             >
               <Link to="/contact">
                 <Mail className="mr-2 h-5 w-5" />
-                Request a Quote
+                Demander un Devis
               </Link>
             </Button>
             <Button
@@ -93,7 +93,7 @@ export function HeroSection() {
               className="text-primary-foreground hover:bg-primary-foreground/10 text-base"
             >
               <Link to="/products">
-                Browse Catalog
+                Voir le Catalogue
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -109,7 +109,7 @@ export function HeroSection() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <div className="flex flex-col items-center gap-2 text-primary-foreground/50">
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
+          <span className="text-xs uppercase tracking-widest">Défiler</span>
           <div className="w-px h-12 bg-gradient-to-b from-primary-foreground/50 to-transparent" />
         </div>
       </motion.div>
