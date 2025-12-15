@@ -5,31 +5,53 @@ import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage1 from "@/assets/hero-industrial.jpg";
 import heroImage2 from "@/assets/hero-industrial-workwear.jpg";
+import heroImage3 from "@/assets/hero-it-equipment.jpg";
 
-const heroImages = [heroImage1, heroImage2];
+const heroSlides = [
+  {
+    image: heroImage1,
+    title: "Produits d'Hygiène",
+    subtitle: "& Consommables",
+    description: "Découvrez notre gamme complète de produits d'hygiène professionnelle, détergents, désinfectants et consommables de qualité pour entreprises.",
+  },
+  {
+    image: heroImage2,
+    title: "Vêtements de Travail",
+    subtitle: "& Équipements de Sécurité",
+    description: "Équipez vos équipes avec nos vêtements de travail, EPI, chaussures de sécurité et matériel de chantier aux normes professionnelles.",
+  },
+  {
+    image: heroImage3,
+    title: "Matériel Informatique",
+    subtitle: "& Consommables d'Impression",
+    description: "Ordinateurs, imprimantes, toners, cartouches d'encre et fournitures de bureau pour optimiser votre environnement de travail.",
+  },
+];
 
 export function HeroSection() {
-  const [currentImage, setCurrentImage] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  const currentContent = heroSlides[currentSlide];
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
       {/* Background Images Carousel */}
       <AnimatePresence mode="wait">
         <motion.div
-          key={currentImage}
+          key={currentSlide}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroImages[currentImage]})` }}
+          style={{ backgroundImage: `url(${currentContent.image})` }}
         />
       </AnimatePresence>
       
@@ -50,29 +72,35 @@ export function HeroSection() {
             </span>
           </motion.div>
 
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6"
-          >
-            Produits d'Hygiène
-            <br />
-            <span className="text-accent">& Consommables</span>
-          </motion.h1>
+          {/* Main Heading - Dynamic */}
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={`title-${currentSlide}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-primary-foreground leading-tight mb-6"
+            >
+              {currentContent.title}
+              <br />
+              <span className="text-accent">{currentContent.subtitle}</span>
+            </motion.h1>
+          </AnimatePresence>
 
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-primary-foreground/70 max-w-2xl mb-8"
-          >
-            SWH Négoce vous propose des produits d'hygiène, consommables, 
-            toners et fournitures professionnelles de qualité. Parcourez 
-            notre catalogue et demandez un devis personnalisé.
-          </motion.p>
+          {/* Description - Dynamic */}
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={`desc-${currentSlide}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-lg sm:text-xl text-primary-foreground/70 max-w-2xl mb-8"
+            >
+              {currentContent.description}
+            </motion.p>
+          </AnimatePresence>
 
           {/* CTA Buttons */}
           <motion.div
@@ -125,16 +153,16 @@ export function HeroSection() {
             transition={{ delay: 0.5 }}
             className="flex gap-2 mt-8"
           >
-            {heroImages.map((_, index) => (
+            {heroSlides.map((_, index) => (
               <button
                 key={index}
-                onClick={() => setCurrentImage(index)}
+                onClick={() => setCurrentSlide(index)}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  index === currentImage
+                  index === currentSlide
                     ? "w-8 bg-accent"
                     : "w-4 bg-primary-foreground/30 hover:bg-primary-foreground/50"
                 }`}
-                aria-label={`Image ${index + 1}`}
+                aria-label={`Slide ${index + 1}`}
               />
             ))}
           </motion.div>
