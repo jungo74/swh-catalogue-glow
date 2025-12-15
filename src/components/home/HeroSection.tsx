@@ -74,8 +74,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              variant="hero"
-              className="text-base"
+              className="bg-primary-foreground text-foreground hover:bg-primary-foreground/90 text-base"
             >
               <a
                 href="https://wa.me/1234567890"
@@ -83,7 +82,7 @@ export function HeroSection() {
                 rel="noopener noreferrer"
               >
                 <MessageCircle className="mr-2 h-5 w-5" />
-                WhatsApp Us
+                Contactez-nous
               </a>
             </Button>
             <Button
