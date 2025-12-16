@@ -66,11 +66,11 @@ export function Navbar() {
             ))}
             <Button
               asChild
-              variant={isScrolled || !isHome ? "default" : "outline"}
               className={cn(
                 "transition-all duration-300",
-                !isScrolled && isHome &&
-                  "border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                isScrolled || !isHome
+                  ? "bg-accent text-accent-foreground hover:bg-accent/90"
+                  : "bg-accent text-accent-foreground hover:bg-accent/80 border-2 border-accent"
               )}
             >
               <Link to="/contact">Demander un Devis</Link>

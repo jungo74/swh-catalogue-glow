@@ -169,17 +169,47 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator with Animation */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.5, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
-        <div className="flex flex-col items-center gap-2 text-primary-foreground/50">
-          <span className="text-xs uppercase tracking-widest">Défiler</span>
-          <div className="w-px h-12 bg-gradient-to-b from-primary-foreground/50 to-transparent" />
-        </div>
+        <motion.div 
+          className="flex flex-col items-center gap-3 cursor-pointer group"
+          animate={{ y: [0, 8, 0] }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }}
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+        >
+          <motion.span 
+            className="text-xs uppercase tracking-[0.2em] text-primary-foreground/70 font-medium group-hover:text-accent transition-colors"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            Défiler
+          </motion.span>
+          <div className="relative">
+            <motion.div
+              className="w-6 h-10 rounded-full border-2 border-primary-foreground/40 flex items-start justify-center p-1.5 group-hover:border-accent transition-colors"
+            >
+              <motion.div
+                className="w-1.5 h-1.5 rounded-full bg-accent"
+                animate={{ y: [0, 16, 0], opacity: [1, 0.3, 1] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </motion.div>
+          </div>
+          <motion.div 
+            className="w-px h-8 bg-gradient-to-b from-primary-foreground/50 via-accent/50 to-transparent"
+            animate={{ scaleY: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+        </motion.div>
       </motion.div>
     </section>
   );
