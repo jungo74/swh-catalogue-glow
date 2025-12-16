@@ -150,25 +150,36 @@ const ContactPage = () => {
         />
       </Helmet>
       <Layout>
-        {/* Page Header */}
-        <section className="pt-28 pb-12 md:pt-36 md:pb-16 bg-gradient-to-br from-primary/10 via-secondary to-secondary">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Page Header with Background */}
+        <section className="relative pt-28 pb-12 md:pt-36 md:pb-16 overflow-hidden">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-foreground/70" />
+          
+          <div className="container relative mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-center"
             >
-              <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary font-semibold text-sm rounded-full mb-4">
+              <span className="inline-block px-4 py-1.5 bg-primary-foreground/20 text-primary-foreground font-semibold text-sm rounded-full mb-4 backdrop-blur-sm">
                 Contactez-nous
               </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4">
                 Parlons de Votre Projet
               </h1>
-              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+              <p className="text-primary-foreground/90 text-lg max-w-2xl mx-auto mb-6">
                 Vous avez des questions ou besoin d'un devis personnalisé ? 
                 Notre équipe d'experts est à votre écoute.
               </p>
+              <div className="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full text-primary-foreground/90 text-sm">
+                <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+                Nous pouvons fournir tout produit à la demande
+              </div>
             </motion.div>
           </div>
         </section>
