@@ -88,13 +88,22 @@ export function AboutSection() {
             </p>
             
             {/* ICE Number */}
-            <div className="inline-flex items-center gap-3 bg-primary/10 px-4 py-3 rounded-lg border border-primary/20">
-              <Shield className="h-5 w-5 text-primary" />
-              <div>
-                <span className="text-xs text-muted-foreground block">ICE Entreprise</span>
-                <span className="font-mono font-semibold text-foreground">002075015000049</span>
+            <motion.div 
+              className="inline-flex items-center gap-4 bg-gradient-to-r from-primary/15 via-primary/10 to-primary/5 px-6 py-4 rounded-xl border-2 border-primary/30 shadow-lg hover:shadow-xl transition-all duration-300 hover:border-primary/50 group cursor-default"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-primary/20 rounded-full blur-md animate-pulse" />
+                <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-md">
+                  <Shield className="h-6 w-6 text-primary-foreground" />
+                </div>
               </div>
-            </div>
+              <div>
+                <span className="text-xs text-primary font-medium uppercase tracking-wider block">ICE Entreprise</span>
+                <span className="font-mono text-xl font-bold text-foreground tracking-wide group-hover:text-primary transition-colors">002075015000049</span>
+              </div>
+            </motion.div>
           </motion.div>
 
           {/* Features Grid */}

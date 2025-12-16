@@ -2,11 +2,13 @@ import { useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import { LayoutGrid, List } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { ProductCard } from "@/components/products/ProductCard";
 import { CategoryFilter } from "@/components/products/CategoryFilter";
 import { ProductSearch } from "@/components/products/ProductSearch";
 import { ProductNotFound } from "@/components/products/ProductNotFound";
+import { Button } from "@/components/ui/button";
 import { products, getCategoryBySlug } from "@/data/mockData";
 
 const ProductsPage = () => {
@@ -14,6 +16,7 @@ const ProductsPage = () => {
   const categoryParam = searchParams.get("category");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(categoryParam);
   const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   const filteredProducts = useMemo(() => {
     let result = products;
@@ -95,7 +98,29 @@ const ProductsPage = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mb-10 space-y-6"
             >
-              <ProductSearch value={searchQuery} onChange={setSearchQuery} />
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                <ProductSearch value={searchQuery} onChange={setSearchQuery} />
+                <div className="flex items-center gap-2 bg-secondary rounded-lg p-1">
+                  <Button
+                    variant={viewMode === "grid" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("grid")}
+                    className="gap-2"
+                  >
+                    <LayoutGrid className="h-4 w-4" />
+                    <span className="hidden sm:inline">Grille</span>
+                  </Button>
+                  <Button
+                    variant={viewMode === "list" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => setViewMode("list")}
+                    className="gap-2"
+                  >
+                    <List className="h-4 w-4" />
+                    <span className="hidden sm:inline">Liste</span>
+                  </Button>
+                </div>
+              </div>
               <CategoryFilter
                 selectedCategory={selectedCategory}
                 onSelectCategory={handleCategoryChange}
@@ -104,9 +129,13 @@ const ProductsPage = () => {
 
             {/* Products */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              <div className={
+                viewMode === "grid" 
+                  ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                  : "flex flex-col gap-4"
+              }>
                 {filteredProducts.map((product, index) => (
-                  <ProductCard key={product._id} product={product} index={index} />
+                  <ProductCard key={product._id} product={product} index={index} viewMode={viewMode} />
                 ))}
               </div>
             ) : (

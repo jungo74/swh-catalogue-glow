@@ -112,7 +112,7 @@ export function HeroSection() {
             <Button
               asChild
               size="lg"
-              className="!bg-accent !text-accent-foreground hover:!bg-accent/90 text-base px-8"
+              className="bg-accent text-accent-foreground hover:bg-transparent hover:text-accent border-2 border-accent transition-all duration-300 text-base px-8"
             >
               <Link to="/contact">
                 <Mail className="mr-2 h-5 w-5" />
