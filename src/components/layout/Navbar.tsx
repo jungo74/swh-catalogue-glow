@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 const navLinks = [
   { href: "/", label: "Accueil" },
@@ -48,7 +49,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -64,6 +65,14 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
+            
+            {/* Cart Drawer */}
+            <div className={cn(
+              isScrolled || !isHome ? "" : "[&_button]:border-primary-foreground/30 [&_button]:text-primary-foreground"
+            )}>
+              <CartDrawer />
+            </div>
+            
             <Button
               asChild
               className={cn(
