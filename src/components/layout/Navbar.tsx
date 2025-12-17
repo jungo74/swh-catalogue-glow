@@ -67,11 +67,7 @@ export function Navbar() {
             ))}
             
             {/* Cart Drawer */}
-            <div className={cn(
-              isScrolled || !isHome ? "" : "[&_button]:border-primary-foreground/30 [&_button]:text-primary-foreground"
-            )}>
-              <CartDrawer />
-            </div>
+            <CartDrawer isTransparent={!isScrolled && isHome} />
             
             <Button
               asChild
