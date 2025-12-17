@@ -32,14 +32,12 @@ export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
 
-  // Parallax effect (relative to this hero section)
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
+  // Parallax effect (robuste avec les transitions de page)
+  // On utilise le scroll global pour éviter les soucis de mesure quand un parent est transformé.
+  const { scrollY } = useScroll();
 
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, 220]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
+  const parallaxY = useTransform(scrollY, [0, 900], [0, 260]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [1, 0.3]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -61,11 +59,13 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="absolute inset-0"
-          style={{ y: parallaxY }}
         >
-          <div 
+          <motion.div
             className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
-            style={{ backgroundImage: `url(${currentContent.image})` }}
+            style={{
+              y: parallaxY,
+              backgroundImage: `url(${currentContent.image})`,
+            }}
           />
         </motion.div>
       </AnimatePresence>
