@@ -1,13 +1,15 @@
 import { useState, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Upload, X, FileText, Clock, Building2, Shield } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Mail, Phone, MapPin, Send, Upload, X, FileText, Clock, Shield, ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 
 // Security constants for file upload
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -28,6 +30,7 @@ interface UploadedFile {
 
 const ContactPage = () => {
   const { toast } = useToast();
+  const { items, removeFromCart, updateQuantity, clearCart } = useCart();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -111,19 +114,62 @@ const ContactPage = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      // Prepare products data for Supabase
+      const productsData = items.map(item => ({
+        id: item.product._id,
+        name: item.product.name,
+        slug: item.product.slug,
+        category: item.product.category.name,
+        quantity: item.quantity,
+        image: item.product.images[0],
+      }));
 
-    toast({
-      title: "Message Envoyé",
-      description: "Merci pour votre demande. Nous vous répondrons rapidement !",
-    });
+      // Insert quote request into Supabase
+      const { error } = await supabase
+        .from('quote_requests')
+        .insert({
+          customer_name: formData.name,
+          customer_email: formData.email,
+          customer_phone: formData.phone || null,
+          customer_company: formData.company || null,
+          message: formData.message,
+          products: productsData,
+        });
 
-    uploadedFiles.forEach((f) => {
-      if (f.preview) URL.revokeObjectURL(f.preview);
-    });
+      if (error) {
+        console.error('Error submitting quote:', error);
+        toast({
+          title: "Erreur",
+          description: "Une erreur est survenue. Veuillez réessayer.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
-    setFormData({ name: "", email: "", phone: "", company: "", message: "" });
-    setUploadedFiles([]);
+      toast({
+        title: "Demande Envoyée !",
+        description: "Merci pour votre demande de devis. Nous vous répondrons rapidement !",
+      });
+
+      // Clean up
+      uploadedFiles.forEach((f) => {
+        if (f.preview) URL.revokeObjectURL(f.preview);
+      });
+
+      setFormData({ name: "", email: "", phone: "", company: "", message: "" });
+      setUploadedFiles([]);
+      clearCart();
+    } catch (err) {
+      console.error('Unexpected error:', err);
+      toast({
+        title: "Erreur",
+        description: "Une erreur inattendue est survenue.",
+        variant: "destructive",
+      });
+    }
+    
     setIsSubmitting(false);
   };
 
@@ -184,6 +230,80 @@ const ContactPage = () => {
           </div>
         </section>
 
+        {/* Cart Products Section */}
+        {items.length > 0 && (
+          <section className="py-8 bg-secondary/50">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-card rounded-2xl shadow-card p-6 border border-border/50"
+              >
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                    <ShoppingCart className="h-5 w-5 text-accent" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold text-foreground">Produits Sélectionnés</h2>
+                    <p className="text-sm text-muted-foreground">{items.length} produit(s) dans votre demande</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <AnimatePresence>
+                    {items.map((item) => (
+                      <motion.div
+                        key={item.product._id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        className="flex items-center gap-4 p-3 rounded-lg bg-secondary/50"
+                      >
+                        <img
+                          src={item.product.images[0]}
+                          alt={item.product.name}
+                          className="w-16 h-16 object-cover rounded-md"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm truncate">{item.product.name}</h4>
+                          <p className="text-xs text-muted-foreground">{item.product.category.name}</p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => updateQuantity(item.product._id, item.quantity - 1)}
+                          >
+                            <Minus className="h-3 w-3" />
+                          </Button>
+                          <span className="text-sm font-medium w-8 text-center">{item.quantity}</span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => updateQuantity(item.product._id, item.quantity + 1)}
+                          >
+                            <Plus className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 text-destructive hover:text-destructive"
+                          onClick={() => removeFromCart(item.product._id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+        )}
+
         {/* Contact Content */}
         <section className="py-12 md:py-20 bg-background">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -201,6 +321,11 @@ const ContactPage = () => {
                   </h2>
                   <p className="text-muted-foreground mb-6">
                     Remplissez le formulaire ci-dessous et nous vous répondrons sous 24h.
+                    {items.length > 0 && (
+                      <span className="block mt-1 text-accent font-medium">
+                        {items.length} produit(s) seront inclus dans votre demande.
+                      </span>
+                    )}
                   </p>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid sm:grid-cols-2 gap-4">
@@ -353,14 +478,14 @@ const ContactPage = () => {
                       type="submit"
                       size="lg"
                       disabled={isSubmitting}
-                      className="w-full h-12 text-base"
+                      className="w-full h-12 text-base bg-accent hover:bg-accent/90"
                     >
                       {isSubmitting ? (
                         "Envoi en cours..."
                       ) : (
                         <>
                           <Send className="mr-2 h-5 w-5" />
-                          Envoyer le Message
+                          Envoyer la Demande {items.length > 0 && `(${items.length} produit${items.length > 1 ? 's' : ''})`}
                         </>
                       )}
                     </Button>

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage1 from "@/assets/hero-industrial.jpg";
@@ -30,6 +30,12 @@ const heroSlides = [
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  // Parallax effect
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,8 +47,8 @@ export function HeroSection() {
   const currentContent = heroSlides[currentSlide];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Images Carousel */}
+    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Images Carousel with Parallax */}
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
@@ -50,13 +56,21 @@ export function HeroSection() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${currentContent.image})` }}
-        />
+          className="absolute inset-0"
+          style={{ y }}
+        >
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
+            style={{ backgroundImage: `url(${currentContent.image})` }}
+          />
+        </motion.div>
       </AnimatePresence>
       
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/40" />
+      <motion.div 
+        className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/40" 
+        style={{ opacity }}
+      />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 pt-20">
         <div className="max-w-4xl">
