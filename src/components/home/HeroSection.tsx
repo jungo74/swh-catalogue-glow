@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage1 from "@/assets/hero-industrial.jpg";
@@ -30,20 +30,16 @@ const heroSlides = [
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
-  
-  // Parallax effect with scroll listener
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-  
-  const parallaxY = scrollY * 0.5;
-  const overlayOpacity = Math.max(0.3, 1 - scrollY / 300);
+
+  // Parallax effect (relative to this hero section)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, 220]);
+  const overlayOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.3]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -65,7 +61,7 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="absolute inset-0"
-          style={{ transform: `translateY(${parallaxY}px)` }}
+          style={{ y: parallaxY }}
         >
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
@@ -75,7 +71,7 @@ export function HeroSection() {
       </AnimatePresence>
       
       {/* Dark Overlay */}
-      <div 
+      <motion.div 
         className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/40" 
         style={{ opacity: overlayOpacity }}
       />
