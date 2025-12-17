@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Mail, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroImage1 from "@/assets/hero-industrial.jpg";
@@ -30,12 +30,20 @@ const heroSlides = [
 
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   
-  // Parallax effect
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0.3]);
+  // Parallax effect with scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  
+  const parallaxY = scrollY * 0.5;
+  const overlayOpacity = Math.max(0.3, 1 - scrollY / 300);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,7 +65,7 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ duration: 1.2, ease: "easeInOut" }}
           className="absolute inset-0"
-          style={{ y }}
+          style={{ transform: `translateY(${parallaxY}px)` }}
         >
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
@@ -67,9 +75,9 @@ export function HeroSection() {
       </AnimatePresence>
       
       {/* Dark Overlay */}
-      <motion.div 
+      <div 
         className="absolute inset-0 bg-gradient-to-r from-foreground/90 via-foreground/70 to-foreground/40" 
-        style={{ opacity }}
+        style={{ opacity: overlayOpacity }}
       />
 
       <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 pt-20">

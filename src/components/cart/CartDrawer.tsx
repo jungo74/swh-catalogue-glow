@@ -6,13 +6,25 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 
-export function CartDrawer() {
+interface CartDrawerProps {
+  isTransparent?: boolean;
+}
+
+export function CartDrawer({ isTransparent = false }: CartDrawerProps) {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems } = useCart();
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button 
+          variant="outline" 
+          size="icon" 
+          className={`relative ${
+            isTransparent 
+              ? "border-primary-foreground/30 text-primary-foreground bg-transparent hover:bg-primary-foreground/10 hover:text-primary-foreground" 
+              : ""
+          }`}
+        >
           <ShoppingCart className="h-5 w-5" />
           {totalItems > 0 && (
             <Badge 
